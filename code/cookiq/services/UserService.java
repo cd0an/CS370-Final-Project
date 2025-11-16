@@ -17,7 +17,7 @@ import cookiq.db.UserRepository;
 import cookiq.models.Preferences;
 import cookiq.models.Recipe;
 import cookiq.models.User;
-import cookiq.security.PasswordUtils;
+import cookiq.utils.PasswordUtils;
 import cookiq.utils.PreferencesUtils;
 
 public class UserService {

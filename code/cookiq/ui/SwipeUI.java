@@ -35,7 +35,6 @@ import javax.swing.SwingConstants;
 import cookiq.models.Preferences;
 import cookiq.models.Recipe;
 import cookiq.models.User;
-import cookiq.services.FeedbackService;
 import cookiq.services.ImageService;
 import cookiq.services.RecommendationService;
 import cookiq.services.UserService;
@@ -51,13 +50,13 @@ public class SwipeUI extends JPanel {
     private MainFrame mainFrame; // Reference to parent frame 
     private RecommendationService recommendationService;
     private ImageService img_service = new ImageService();
-    private FeedbackService feedbackService;
+    // private FeedbackService feedbackService;
      
     // Constructor 
-    public SwipeUI(MainFrame frame, RecommendationService service, FeedbackService feedbackService) {
+    public SwipeUI(MainFrame frame, RecommendationService service) {
         this.mainFrame = frame;
         this.recommendationService = service;
-        this.feedbackService = feedbackService;
+        // this.feedbackService = feedbackService;
         
         setLayout(new BorderLayout());
         setBackground(new Color(0xF2, 0xEF, 0xEB)); // #f2efeb
@@ -306,7 +305,7 @@ public class SwipeUI extends JPanel {
         if (currentIndex >= recipes.size()) return;
             Recipe recipe = recipes.get(currentIndex);
 
-            feedbackService.markRecipeAsSeen(recipe);
+            // feedbackService.markRecipeAsSeen(recipe);
 
             List<BufferedImage> images = img_service.getImage(recipe.getName());
             if (images != null && !images.isEmpty()) {
@@ -404,11 +403,11 @@ public class SwipeUI extends JPanel {
 
         // When user clicks the 'New Suggestions' button, it calls the RecommendationService to retrieve new recipes 
         newSuggestions.addActionListener(e -> {
-            FeedbackService feedbackService = mainFrame.getFeedbackService();
+            RecommendationService feedbackService = mainFrame.getRecommendationService();
             User currentUser = UserSession.getInstance().getCurrentUser();
             
             // Use FeedbackService to get new suggestions
-            List<Recipe> newRecipes = feedbackService.getNewSuggestions(userPreferences, currentUser);
+            List<Recipe> newRecipes = feedbackService.getRecommendations(userPreferences, currentUser);
 
             if (newRecipes.isEmpty()) {
                 JOptionPane.showMessageDialog(
@@ -419,9 +418,9 @@ public class SwipeUI extends JPanel {
                 );
             } else {
 
-                for(Recipe recipe : newRecipes) {
-                    feedbackService.markRecipeAsSeen(recipe);
-                }
+                // for(Recipe recipe : newRecipes) {
+                //     feedbackService.markRecipeAsSeen(recipe);
+                // }
 
 
                 this.recipes = newRecipes;

@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import cookiq.models.Preferences;
 import cookiq.models.Recipe;
 import cookiq.models.User;
-import cookiq.services.FeedbackService;
 import cookiq.services.RecommendationService;
 import cookiq.services.UserService;
 import cookiq.services.UserSession;
@@ -35,14 +34,14 @@ public class MainFrame extends JFrame {
 
     private final UserService userService; // SINGLE UserService instance
     private final RecommendationService recommendationService; 
-    private FeedbackService feedbackService;
+    // private FeedbackService feedbackService;
 
     // Constructor 
     public MainFrame(User user) {
         this.currentUser = user; // Set current user
         this.userService = new UserService(); 
         this.recommendationService = new RecommendationService();
-        this.feedbackService = new FeedbackService(recommendationService);
+        // this.feedbackService = new FeedbackService(recommendationService);
 
         currentFrame = this;
 
@@ -68,7 +67,7 @@ public class MainFrame extends JFrame {
 
         // Initialize Panels 
         preferencesUI = new PreferencesUI(this);
-        swipeUI = new SwipeUI(this, recommendationService, feedbackService); 
+        swipeUI = new SwipeUI(this, recommendationService); 
         likedRecipeUI = new LikedRecipeUI(this);
         homeDashboardUI = new HomeDashboardUI(this);
         detailsUI = new RecipeDetailsUI(this, null);
@@ -148,9 +147,8 @@ public class MainFrame extends JFrame {
         updateNavbarForUser();
     }
 
-    // ======================== Method to get FeedbackService ========================
-    public FeedbackService getFeedbackService() {
-        return feedbackService;
+    public RecommendationService getRecommendationService(){
+        return recommendationService;
     }
 
     public User getCurrentUser() {

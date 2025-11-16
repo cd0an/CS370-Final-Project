@@ -18,7 +18,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 
-import cookiq.security.PasswordUtils;
+import cookiq.utils.PasswordUtils;
 
 public class UserRepository {
 
@@ -134,9 +134,9 @@ public class UserRepository {
             return false;
 
         String storedHash = user.getString("passwordHash");
-        String enteredHash = cookiq.security.PasswordUtils.sha256(password);
+        String enteredHash = cookiq.utils.PasswordUtils.sha256(password);
 
         // Timing-safe comparison
-        return cookiq.security.PasswordUtils.slowEquals(storedHash, enteredHash);
+        return cookiq.utils.PasswordUtils.slowEquals(storedHash, enteredHash);
     }
 }

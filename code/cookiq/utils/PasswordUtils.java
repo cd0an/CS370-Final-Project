@@ -1,4 +1,4 @@
-package cookiq.security;
+package cookiq.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
