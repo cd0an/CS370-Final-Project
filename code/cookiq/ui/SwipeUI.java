@@ -50,7 +50,6 @@ public class SwipeUI extends JPanel {
     private MainFrame mainFrame; // Reference to parent frame 
     private RecommendationService recommendationService;
     private ImageService img_service = new ImageService();
-    // private FeedbackService feedbackService;
      
     // Constructor 
     public SwipeUI(MainFrame frame, RecommendationService service) {
@@ -305,8 +304,6 @@ public class SwipeUI extends JPanel {
         if (currentIndex >= recipes.size()) return;
             Recipe recipe = recipes.get(currentIndex);
 
-            // feedbackService.markRecipeAsSeen(recipe);
-
             List<BufferedImage> images = img_service.getImage(recipe.getName());
             if (images != null && !images.isEmpty()) {
                 BufferedImage img = images.get(0);
@@ -406,7 +403,6 @@ public class SwipeUI extends JPanel {
             RecommendationService feedbackService = mainFrame.getRecommendationService();
             User currentUser = UserSession.getInstance().getCurrentUser();
             
-            // Use FeedbackService to get new suggestions
             List<Recipe> newRecipes = feedbackService.getRecommendations(userPreferences, currentUser);
 
             if (newRecipes.isEmpty()) {
@@ -417,11 +413,6 @@ public class SwipeUI extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE
                 );
             } else {
-
-                // for(Recipe recipe : newRecipes) {
-                //     feedbackService.markRecipeAsSeen(recipe);
-                // }
-
 
                 this.recipes = newRecipes;
                 currentIndex = 0;

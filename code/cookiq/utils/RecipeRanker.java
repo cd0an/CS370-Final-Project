@@ -47,7 +47,7 @@ public class RecipeRanker {
     
     /**
      * Calculate score based on non-mandatory preferences
-     * Dietary restrictions and health goals are already handled as mandatory filters
+     * Dietary restrictions, health goals, and available ingredients are already handled as mandatory filters
      */
     private int calculateMatchScore(Recipe recipe, Preferences prefs) {
         int score = 0;
@@ -73,7 +73,7 @@ public class RecipeRanker {
             }
         }
         
-        // Budget - rmedium priority 
+        // Budget - medium priority 
         if (prefs.getMaxBudget() > 0) {
             if (recipe.getCost() <= prefs.getMaxBudget()) {
                 score += 10;

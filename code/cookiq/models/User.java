@@ -16,7 +16,6 @@ public class User {
     private Preferences preferences;
     private List<String> liked;
     private List<String> disliked;
-    private List<String> seen;
 
     // Constructor for new users
     public User(String username, String password) {
@@ -25,7 +24,6 @@ public class User {
         this.preferences = new Preferences();
         this.liked = new ArrayList<>();
         this.disliked = new ArrayList<>();
-        this.seen = new ArrayList<>();
     }
 
     // Constructor for loading users with liked recipes
@@ -35,8 +33,6 @@ public class User {
         this.preferences = preferences != null ? preferences : new Preferences();
         this.liked = likedRecipes != null ? new ArrayList<>(likedRecipes) : new ArrayList<>();
         this.disliked = dislikedRecipes != null ? new ArrayList<>(dislikedRecipes) : new ArrayList<>();
-        this.seen = seenRecipes != null ? new ArrayList<>(seenRecipes) : new ArrayList<>();
-        this.seen = new ArrayList<>();
     }
 
     // ==================== Getters ====================
@@ -47,33 +43,18 @@ public class User {
     // Return copies to prevent external modification
     public List<String> getLikedRecipes() { return new ArrayList<>(liked); }
     public List<String> getDislikedRecipes() { return new ArrayList<>(disliked);}
-    public List<String> getSeenRecipes() {return new ArrayList<>(seen);}
 
     // ==================== Add/Remove ====================
     public void addLikedRecipe(String recipeId) {
         if (!liked.contains(recipeId)) {
             liked.add(recipeId);
-            disliked.remove(recipeId);
-            addSeenRecipe(recipeId);
         }
     }
 
     public void addDislikedRecipe(String recipeId) {
         if (!disliked.contains(recipeId)) {
             disliked.add(recipeId);
-            liked.remove(recipeId);
-            addSeenRecipe(recipeId);
         }
-    }
-
-    public void addSeenRecipe(String recipeId) {
-        if (recipeId != null && !seen.contains(recipeId)) {
-            seen.add(recipeId);
-        }
-    }
-
-    public void clearSeenRecipes() {
-        seen.clear();
     }
 
     public void removeLikedRecipe(String recipeId) {
@@ -98,7 +79,6 @@ public class User {
                 "username='" + username + '\'' +
                 ", liked=" + liked +
                 ", disliked=" + disliked + 
-                ", seen=" + seen +
                 '}';
     }
 }
