@@ -134,7 +134,6 @@ public class HomeDashboardUI extends JPanel {
     }
 
     // ====================== Helper Functions ======================
-
     private void addHoverEffect(JButton button, Color hoverColor) {
         Color originalColor = button.getBackground();
         Dimension originalSize = button.getPreferredSize();

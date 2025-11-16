@@ -6,10 +6,11 @@
 */
 package cookiq.utils;
 
-import cookiq.models.Preferences;
+import org.bson.Document;
 
-import org.bson.Document; //MongoDB Java Driver
-import com.google.gson.Gson; //Used to convert java objects to JSON and vice versa
+import com.google.gson.Gson; //MongoDB Java Driver
+
+import cookiq.models.Preferences; //Used to convert java objects to JSON and vice versa
 
 public class PreferencesUtils {
     //Creates a Gson object to convert java objects <--> JSON in this class
@@ -22,8 +23,8 @@ public class PreferencesUtils {
 
     //Convert JSON string to Preferences object
     public static Preferences fromJsonString(String json) {
-        if (json == null || json.isEmpty()) return new Preferences(); //Empty json return default constructor for Preferences class
-        return gson.fromJson(json, Preferences.class); //Else return preferences class with json data
+        if (json == null || json.isEmpty()) return new Preferences(); // Empty json return default constructor for Preferences class
+        return gson.fromJson(json, Preferences.class); // Else return preferences class with json data
     }
 
     //Convert Preferences to BSON Document for MongoDB

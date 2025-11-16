@@ -3,6 +3,7 @@
  *
  * Handles the login screen for CookIQ.
  * Collects username and password and passes them to UserService.
+ * ChatGPT was used to help provide suggestions and implementations 
  */
 
 package cookiq.ui;
