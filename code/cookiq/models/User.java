@@ -25,7 +25,6 @@ public class User {
         this.preferences = new Preferences();
         this.liked = new ArrayList<>();
         this.disliked = new ArrayList<>();
-        this.seen = new ArrayList<>();
     }
 
     // Constructor for loading users with liked recipes
@@ -36,6 +35,7 @@ public class User {
         this.liked = likedRecipes != null ? new ArrayList<>(likedRecipes) : new ArrayList<>();
         this.disliked = dislikedRecipes != null ? new ArrayList<>(dislikedRecipes) : new ArrayList<>();
         this.seen = seenRecipes != null ? new ArrayList<>(seenRecipes) : new ArrayList<>();
+        this.seen = new ArrayList<>();
     }
 
     // ==================== Getters ====================
@@ -46,7 +46,7 @@ public class User {
     // Return copies to prevent external modification
     public List<String> getLikedRecipes() { return new ArrayList<>(liked); }
     public List<String> getDislikedRecipes() { return new ArrayList<>(disliked);}
-    public List<String> getSeenRecipes() { return new ArrayList<>(seen); }
+    public List<String> getSeenRecipes() {return new ArrayList<>(seen);}
 
     // ==================== Add/Remove ====================
     public void addLikedRecipe(String recipeId) {
@@ -61,7 +61,6 @@ public class User {
         if (!disliked.contains(recipeId)) {
             disliked.add(recipeId);
             liked.remove(recipeId);
-            addSeenRecipe(recipeId);
         }
     }
 
@@ -74,7 +73,6 @@ public class User {
     public void clearSeenRecipes() {
         seen.clear();
     }
-
 
     public void removeLikedRecipe(String recipeId) {
         if (recipeId != null) {
@@ -97,7 +95,7 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", liked=" + liked +
-                ", disliked=" + disliked +
+                ", disliked=" + disliked + 
                 ", seen=" + seen +
                 '}';
     }

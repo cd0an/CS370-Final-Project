@@ -27,10 +27,7 @@ public class FeedbackService {
         this.recipeFeedback = new HashMap<>();
         this.recommendationService = recommendationService;
     }
-    
-    /**
-     * Record that a user has seen a recipe
-     */
+
     public void markRecipeAsSeen(Recipe recipe) {
         if (recipe != null && recipe.getId() != null) {
             seenRecipeIds.add(recipe.getId());
@@ -46,6 +43,7 @@ public class FeedbackService {
             String recipeId = recipe.getId();
             recipeFeedback.put(recipeId, liked ? 1 : -1);
             markRecipeAsSeen(recipe);
+            seenRecipeIds.add(recipeId);
 
             // Update the User object
             if (liked) {
@@ -57,7 +55,7 @@ public class FeedbackService {
     }
     
     /**
-     * Get new suggestions excluding already seen recipes
+     * Get new suggestions 
      */
     public List<Recipe> getNewSuggestions(Preferences preferences, User user) {
         List<Recipe> allRecommendations = recommendationService.getRecommendations(preferences, user);
@@ -83,7 +81,6 @@ public class FeedbackService {
         List<Recipe> baseRecommendations = getNewSuggestions(preferences, user);
         
         // Simple feedback-based reordering
-        // In a real system, this would use ML to learn user preferences
         List<ScoredRecipe> rescored = new ArrayList<>();
         
         for (Recipe recipe : baseRecommendations) {
@@ -112,7 +109,6 @@ public class FeedbackService {
         for (Map.Entry<String, Integer> entry : recipeFeedback.entrySet()) {
             if (entry.getValue() > 0) { // Liked recipe
                 // Simple similarity check - same dietary category and health goals
-                // In real implementation, you'd use more sophisticated similarity
                 Recipe likedRecipe = findRecipeById(entry.getKey());
                 if (likedRecipe != null) {
                     if (likedRecipe.getDietaryCategory().equals(recipe.getDietaryCategory())) {
@@ -140,17 +136,11 @@ public class FeedbackService {
         }
         return null;
     }
-    
-    /**
-     * Reset seen recipes (for testing or when user wants to start over)
-     */
+
     public void resetSeenRecipes() {
         seenRecipeIds.clear();
     }
-    
-    /**
-     * Get number of recipes seen by user
-     */
+
     public int getSeenRecipeCount() {
         return seenRecipeIds.size();
     }

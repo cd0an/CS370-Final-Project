@@ -306,7 +306,6 @@ public class SwipeUI extends JPanel {
         if (currentIndex >= recipes.size()) return;
             Recipe recipe = recipes.get(currentIndex);
 
-            // Mark recipe as seen 
             feedbackService.markRecipeAsSeen(recipe);
 
             List<BufferedImage> images = img_service.getImage(recipe.getName());
@@ -419,10 +418,11 @@ public class SwipeUI extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE
                 );
             } else {
-                // Mark all the new recipes as seen immediately 
-                for (Recipe recipe : newRecipes) {
+
+                for(Recipe recipe : newRecipes) {
                     feedbackService.markRecipeAsSeen(recipe);
                 }
+
 
                 this.recipes = newRecipes;
                 currentIndex = 0;
