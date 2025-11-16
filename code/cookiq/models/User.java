@@ -25,6 +25,7 @@ public class User {
         this.preferences = new Preferences();
         this.liked = new ArrayList<>();
         this.disliked = new ArrayList<>();
+        this.seen = new ArrayList<>();
     }
 
     // Constructor for loading users with liked recipes
@@ -61,6 +62,7 @@ public class User {
         if (!disliked.contains(recipeId)) {
             disliked.add(recipeId);
             liked.remove(recipeId);
+            addSeenRecipe(recipeId);
         }
     }
 
