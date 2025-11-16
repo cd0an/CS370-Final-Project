@@ -88,6 +88,7 @@ public class RecommendationService {
         List<String> dislikeRecipe = userService.getDislikedRecipes(userName);
         userRecipe.addAll(dislikeRecipe);
 
+        // Step 3: Remove already liked and disliked recipes from the rank recommendations 
         List<Recipe> toremove = new ArrayList<>();
 
         for(int i=0; i<rankedRecommendations.size(); i++){
@@ -102,7 +103,7 @@ public class RecommendationService {
             rankedRecommendations.remove(toremove.get(i));
         }
 
-        // Step 3: Limit to top 3 results
+        // Step 4: Limit to top 3 results
         Collections.shuffle(rankedRecommendations); 
         int limit = Math.min(3, rankedRecommendations.size());
         List<Recipe> topRecommendations = rankedRecommendations.subList(0, limit);
