@@ -485,7 +485,7 @@ public class SwipeUI extends JPanel {
         Ptitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
 
         // Message at the top 
-        JLabel message = new JLabel("Attention: Please set your preferences first.", SwingConstants.CENTER);
+        JLabel message = new JLabel("Attention: No recipes found. Please set your preferences.", SwingConstants.CENTER);
         message.setFont(new Font("SansSerif", Font.BOLD, 18));
         message.setForeground(new Color(0xD9, 0x7A, 0x7A));
         message.setAlignmentX(Component.CENTER_ALIGNMENT);
