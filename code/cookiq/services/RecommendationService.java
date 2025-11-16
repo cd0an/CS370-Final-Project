@@ -80,17 +80,37 @@ public class RecommendationService {
         }
         
         // Step 2: Use RecipeRanker to score and rank the remaining recipes
+        String userName = user.getUsername();
+        UserService userService = new UserService();
         recipeRanker.setRecipeDatabase(mandatoryFiltered);
         List<Recipe> rankedRecommendations = recipeRanker.getRecommendations(preferences);
+        List<String> userRecipe = userService.getLikedRecipes(userName);
+        List<String> dislikeRecipe = userService.getDislikedRecipes(userName);
+        userRecipe.addAll(dislikeRecipe);
+
+        List<Recipe> toremove = new ArrayList<>();
+
+        for(int i=0; i<rankedRecommendations.size(); i++){
+            String currentRecipeName = rankedRecommendations.get(i).getName(); 
+            Recipe currentRecipe = rankedRecommendations.get(i);
+            if (userRecipe.contains(currentRecipeName)){
+                toremove.add(currentRecipe);
+            }
+        }
+
+        for (int i=0; i<toremove.size();i++){
+            rankedRecommendations.remove(toremove.get(i));
+        }
 
         // Step 3: Limit to top 3 results
         Collections.shuffle(rankedRecommendations); 
         int limit = Math.min(3, rankedRecommendations.size());
         List<Recipe> topRecommendations = rankedRecommendations.subList(0, limit);
-        
+
         System.out.println("Returning " + rankedRecommendations.size() + " ranked recommendations");
         return topRecommendations;
     }
+
     
     /**
      * MANDATORY FILTERING: Recipes MUST match dietary restrictions AND health goals
@@ -133,7 +153,7 @@ public class RecommendationService {
         return false;
     }
 
-        /**
+    /**
      * Checks if a recipe contains any of the user's available ingredients.
      * If the user didn't type ingredients, allow all recipes.
      */

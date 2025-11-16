@@ -80,7 +80,7 @@ public class SwipeUI extends JPanel {
             showSetPreferencesUI();
         } else {
             // Fetch recommended recipes as Recipe objects
-            User currentUser = UserSession.getInstance().getCurrentUser();
+            User currentUser = UserSession.getInstance().getCurrentUser();            
             recipes = recommendationService.getRecommendations(userPreferences, currentUser);
 
             if (recipes.isEmpty()) {
