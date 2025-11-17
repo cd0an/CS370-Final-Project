@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "UploadImages",
+            "request": "launch",
+            "mainClass": "cookiq.services.UploadImages",
+            "projectName": "cs370-project"
+        },
+        {
+            "type": "java",
             "name": "CookIQ",
             "request": "launch",
             "mainClass": "cookiq.CookIQ",
