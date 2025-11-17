@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -53,17 +54,71 @@ public class ImageService
      * Method to get 1 (or more) images based on passed in recipe name
      * Buffered --> Means editable image
      */
+    // public List<BufferedImage> getImage(String recipe_name) {
+    //     image_list.clear(); // Clear old images 
+
+    //     try {
+    //         String query = recipe_name;
+    //         String encoded_query = URLEncoder.encode(query, "UTF-8"); //Allows the query to be URL search friendly
+
+    //         /**
+    //          * Findn and return 1 (or more) image urls for the queried recipe name
+    //          * If you want to change the number returned, change the value at the end of the https
+    //          */
+    //         String url_str = String.format(
+    //             "https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s&searchType=image&num=1",
+    //             API_KEY, CX, encoded_query
+    //         );
+
+    //         URL url = new URL(url_str);
+    //         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    //         conn.setRequestMethod("GET"); //The Https URL connection
+
+    //         //Read response
+    //         StringBuilder response = new StringBuilder();
+    //         try(BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) 
+    //         {
+    //             String line;                
+    //             while((line = in.readLine()) != null) 
+    //             {
+    //                 response.append(line); //if line isn't null we append it to create the final url
+    //             }
+    //         }
+
+    //         JSONObject json = new JSONObject(response.toString());
+    //         JSONArray items = json.getJSONArray("items"); //Returned json of 5 urls
+
+    //         for(int i = 0; i < items.length(); i++) 
+    //         {
+    //             JSONObject item = items.getJSONObject(i);
+    //             String image_url = item.getString("link"); //Get the url link from the JSONObject
+    //             BufferedImage img = ImageIO.read(new URL(image_url));
+    //             image_list.add(img);
+    //         }
+    //     }
+
+    //     /**
+    //      * Error catching
+    //      */
+    //     catch(MalformedURLException e) {
+    //         e.printStackTrace(); //Invalid URL format
+    //     } 
+    //     catch(IOException e) {
+    //         e.printStackTrace(); //Connection/stream errors
+    //     } 
+    //     catch(JSONException e) {
+    //         e.printStackTrace(); //JSON parsing errors
+    //     }
+    //     return image_list;
+    // }
+
     public List<BufferedImage> getImage(String recipe_name) {
         image_list.clear(); // Clear old images 
 
         try {
             String query = recipe_name;
-            String encoded_query = URLEncoder.encode(query, "UTF-8"); //Allows the query to be URL search friendly
+            String encoded_query = URLEncoder.encode(query, "UTF-8"); 
 
-            /**
-             * Findn and return 1 (or more) image urls for the queried recipe name
-             * If you want to change the number returned, change the value at the end of the https
-             */
             String url_str = String.format(
                 "https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s&searchType=image&num=1",
                 API_KEY, CX, encoded_query
@@ -71,45 +126,56 @@ public class ImageService
 
             URL url = new URL(url_str);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET"); //The Https URL connection
+            conn.setRequestMethod("GET");
 
-            //Read response
             StringBuilder response = new StringBuilder();
-            try(BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) 
-            {
+            try(BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String line;                
-                while((line = in.readLine()) != null) 
-                {
-                    response.append(line); //if line isn't null we append it to create the final url
+                while((line = in.readLine()) != null) {
+                    response.append(line);
                 }
             }
 
             JSONObject json = new JSONObject(response.toString());
-            JSONArray items = json.getJSONArray("items"); //Returned json of 5 urls
+            JSONArray items = json.getJSONArray("items"); 
 
-            for(int i = 0; i < items.length(); i++) 
-            {
+            for(int i = 0; i < items.length(); i++) {
                 JSONObject item = items.getJSONObject(i);
-                String image_url = item.getString("link"); //Get the url link from the JSONObject
+                String image_url = item.getString("link"); 
                 BufferedImage img = ImageIO.read(new URL(image_url));
-                image_list.add(img);
+                if (img != null) image_list.add(img);
+            }
+
+        } catch(Exception e) {
+            System.out.println("Google API failed or rate limit hit: " + e.getMessage());
+        }
+
+        // --- Local fallback using recipe_name ---
+        if (image_list.isEmpty()) {
+            System.out.println("Using local fallback images...");
+            String folderPath = "Recipe_Images"; // folder in your VS Code project
+            File folder = new File(folderPath);
+            if(folder.exists()) {
+                String recipeFileName = recipe_name.toLowerCase().replaceAll("\\s+", "_") + ".jpg"; 
+                // Example: "Chocolate Cake" -> "chocolate_cake.jpg"
+
+                File localImage = new File(folder, recipeFileName);
+                if(localImage.exists()) {
+                    try {
+                        BufferedImage img = ImageIO.read(localImage);
+                        if(img != null) image_list.add(img);
+                    } catch(IOException io) {
+                        System.err.println("Failed to load local image: " + localImage.getName());
+                    }
+                } else {
+                    System.out.println("No local image found for: " + recipe_name);
+                }
             }
         }
 
-        /**
-         * Error catching
-         */
-        catch(MalformedURLException e) {
-            e.printStackTrace(); //Invalid URL format
-        } 
-        catch(IOException e) {
-            e.printStackTrace(); //Connection/stream errors
-        } 
-        catch(JSONException e) {
-            e.printStackTrace(); //JSON parsing errors
-        }
         return image_list;
     }
+
 
     public JLabel displayImage(List<BufferedImage> image_list, String RECIPE_NAME, int WIDTH, int HEIGHT) {
         if (image_list == null || image_list.isEmpty()) {
