@@ -1,4 +1,4 @@
 {
-  "guestMode": false,
-  "username": "PasswordIsUsername"
+  "guestMode": true,
+  "username": null
 }
