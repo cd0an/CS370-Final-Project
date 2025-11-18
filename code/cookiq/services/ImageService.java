@@ -37,13 +37,14 @@ public class ImageService
      * API_KEY --> Api key
      * AIzaSyCHa3fu4NsDuWU8WejIpNnFfHQm9_11p2w
      * AIzaSyAf3Pj9kGdiCx5wtnM0Q0xpS6hVZPAGinw
+     * TEST: AIzaSyCVMTrJh4g2aRVmaystoHoPsSbJkJsMWDA
      * 
      * CX --> Search Engine ID
      * 83632e2b5a7c14e72
      * d71afe979ffb143fd     * 
      */
-    private static final String API_KEY = "AIzaSyCHa3fu4NsDuWU8WejIpNnFfHQm9_11p2w";
-    private static final String CX = "83632e2b5a7c14e72 ";
+    private static final String API_KEY = "AIzaSyCVMTrJh4g2aRVmaystoHoPsSbJkJsMWDA";
+    private static final String CX = "d71afe979ffb143fd";
 
     List<BufferedImage> image_list = new ArrayList<>();
     int img_index = 0;
