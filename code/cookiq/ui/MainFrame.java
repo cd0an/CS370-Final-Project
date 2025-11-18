@@ -79,7 +79,6 @@ public class MainFrame extends JFrame {
         detailsUI = new RecipeDetailsUI(this, null);
 
         add(mainPanel, BorderLayout.CENTER); // Add main panel below navbar
-        cardLayout.show(mainPanel, "Home"); // Show Home Screen
 
         setVisible(true);
     }

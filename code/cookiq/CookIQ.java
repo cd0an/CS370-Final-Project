@@ -18,13 +18,15 @@ public class CookIQ {
         session.loadSession(); // Load a saved session if it exists
 
         User currentUser = session.getCurrentUser();
-        if (currentUser == null) {
-            // If no user loaded, start as guest 
-            session.loginAsGuest();
-            currentUser = session.getCurrentUser();
-        }
 
-        // Launch main window
-        new MainFrame(currentUser);
+        if (currentUser == null || session.isGuest()) {
+            javax.swing.JFrame loginFrame = new javax.swing.JFrame("Login");
+            loginFrame.setContentPane(new cookiq.ui.LoginUI());
+            loginFrame.pack();
+            loginFrame.setLocationRelativeTo(null);
+            loginFrame.setVisible(true);
+        } else {
+            new MainFrame(currentUser);
+        }
     }
 }
