@@ -110,7 +110,7 @@ public class LikedRecipeUI extends JPanel {
         card.add(Box.createVerticalStrut(15));
 
         // --- Cuisine | Cook Time | Cost ---
-        JLabel infoLabel = new JLabel(recipe.getCuisine() + " | " + recipe.getCookTime() + " | " + recipe.getCost(), SwingConstants.CENTER);
+        JLabel infoLabel = new JLabel(recipe.getCuisine() + " | " + recipe.getCookTime() + " min | $" + recipe.getCost(), SwingConstants.CENTER);
         infoLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
         infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(infoLabel);
